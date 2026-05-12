@@ -69,7 +69,8 @@ describe('authenticate', () => {
     );
 
     // THEN
-    const allSessions = await config.sessionStorage.findSessionsByShop(TEST_SHOP);
+    const allSessions =
+      await config.sessionStorage.findSessionsByShop(TEST_SHOP);
     const persistedSession = allSessions.find(
       (storedSession) => storedSession.id === session.id,
     );

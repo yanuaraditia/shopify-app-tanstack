@@ -1,8 +1,8 @@
 export interface HeadersArgs {
-	parentHeaders?: Headers;
-	loaderHeaders?: Headers;
-	actionHeaders?: Headers;
-	errorHeaders?: Headers;
+  parentHeaders?: Headers;
+  loaderHeaders?: Headers;
+  actionHeaders?: Headers;
+  errorHeaders?: Headers;
 }
 
 export type ErrorBoundary = (error: unknown) => string | never;

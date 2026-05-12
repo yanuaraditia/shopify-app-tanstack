@@ -1,5 +1,4 @@
 import {redirect as responseRedirect} from '../../../helpers/redirect-response';
-
 import {BasicParams, AppDistribution} from '../../../types';
 import {getSessionTokenHeader} from '../../helpers/get-session-token-header';
 

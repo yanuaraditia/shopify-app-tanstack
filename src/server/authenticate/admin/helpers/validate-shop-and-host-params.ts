@@ -1,5 +1,4 @@
 import {redirect} from '../../../helpers/redirect-response';
-
 import {BasicParams, AppDistribution} from '../../../types';
 
 export function validateShopAndHostParams(

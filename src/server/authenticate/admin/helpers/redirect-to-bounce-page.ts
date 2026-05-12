@@ -1,5 +1,4 @@
 import {redirect} from '../../../helpers/redirect-response';
-
 import {BasicParams} from '../../../types';
 
 export const redirectToBouncePage = (params: BasicParams, url: URL): never => {

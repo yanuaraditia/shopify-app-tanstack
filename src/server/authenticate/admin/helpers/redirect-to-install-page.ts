@@ -1,5 +1,4 @@
 import {redirect as responseRedirect} from '../../../helpers/redirect-response';
-
 import type {BasicParams} from '../../../types';
 import {AppDistribution} from '../../../types';
 

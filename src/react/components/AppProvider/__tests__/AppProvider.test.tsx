@@ -144,7 +144,9 @@ describe('<AppProvider />', () => {
         'script[src="https://cdn.shopify.com/shopifycloud/app-bridge.js"]',
       );
       expect(appBridgeScript).not.toBeNull();
-      expect(appBridgeScript?.getAttribute('data-api-key')).toBe('test-api-key');
+      expect(appBridgeScript?.getAttribute('data-api-key')).toBe(
+        'test-api-key',
+      );
 
       unmount();
     });

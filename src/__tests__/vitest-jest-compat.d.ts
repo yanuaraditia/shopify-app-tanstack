@@ -9,7 +9,7 @@ declare global {
 }
 
 export type JestMock<
-  T extends (...args: any[]) => any = (...args: any[]) => any,
-> = VitestMock<T>;
+  Fn extends (...args: any[]) => any = (...args: any[]) => any,
+> = VitestMock<Fn>;
 
 export {};

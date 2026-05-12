@@ -1,5 +1,4 @@
-import {createRef} from 'react';
-import {act} from 'react';
+import {createRef, act} from 'react';
 import {createRoot} from 'react-dom/client';
 
 import '../../../__tests__/setup-dom-test-helper';
@@ -48,7 +47,9 @@ describe('<AppProxyLink />', () => {
 
     // THEN
     const anchor = container.querySelector('a');
-    expect(anchor?.getAttribute('href')).toBe('http://localhost:3000/my-action/');
+    expect(anchor?.getAttribute('href')).toBe(
+      'http://localhost:3000/my-action/',
+    );
     expect(container.textContent).toContain('Hello world');
 
     unmount();
@@ -64,7 +65,9 @@ describe('<AppProxyLink />', () => {
 
     // THEN
     const anchor = container.querySelector('a');
-    expect(anchor?.getAttribute('href')).toBe('http://localhost:3000/my-action/');
+    expect(anchor?.getAttribute('href')).toBe(
+      'http://localhost:3000/my-action/',
+    );
     expect(container.textContent).toContain('Hello world');
 
     unmount();
