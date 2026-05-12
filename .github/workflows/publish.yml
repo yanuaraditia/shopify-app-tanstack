@@ -44,8 +44,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          PACKAGE_NAME="$(node -p \"require('./package.json').name\")"
-          PACKAGE_VERSION="$(node -p \"require('./package.json').version\")"
+          PACKAGE_NAME="$(node -p 'require("./package.json").name')"
+          PACKAGE_VERSION="$(node -p 'require("./package.json").version')"
           TAG_NAME="${GITHUB_REF_NAME}"
 
           echo "Repository: ${GITHUB_REPOSITORY}"
