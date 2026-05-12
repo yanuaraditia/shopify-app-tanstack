@@ -25,7 +25,7 @@ export interface AdminApiContext {
    * Methods for interacting with the Shopify Admin GraphQL API
    *
    * {@link https://shopify.dev/docs/api/admin-graphql}
-   * {@link https://github.com/Shopify/shopify-app-js/blob/main/packages/apps/shopify-api/docs/reference/clients/Graphql.md}
+   * {@link https://github.com/yanuaraditia/shopify-app-tanstack/blob/main/packages/apps/shopify-api/docs/reference/clients/Graphql.md}
    *
    * @example
    * <caption>Querying the GraphQL API.</caption>
@@ -63,7 +63,7 @@ export interface AdminApiContext {
    *
    * ```ts
    * // /app/shopify.server.ts
-   * import { shopifyApp } from "@shopify/shopify-app-react-router/server";
+   * import { shopifyApp } from "@yanuaraditia/shopify-app-tanstack/server";
    *
    * const shopify = shopifyApp({
    *   // ...
@@ -111,7 +111,7 @@ export interface AdminApiContext {
    *
    * ```ts
    * // /app/shopify.server.ts
-   * import { shopifyApp } from "@shopify/shopify-app-react-router/server";
+   * import { shopifyApp } from "@yanuaraditia/shopify-app-tanstack/server";
    *
    * const shopify = shopifyApp({
    *   // ...

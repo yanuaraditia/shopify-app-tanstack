@@ -1,20 +1,19 @@
 {
   "description": "Shopify TanStack Router - to simplify building Shopify apps with TanStack Router",
-  "name": "@shopify/shopify-app-react-router",
+  "name": "@yanuaraditia/shopify-app-tanstack",
   "version": "1.2.0",
   "engines": {
     "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Shopify/shopify-app-js.git",
-    "directory": "packages/apps/shopify-app-react-router"
+    "url": "git+https://github.com/yanuaraditia/shopify-app-tanstack.git"
   },
   "bugs": {
-    "url": "https://github.com/Shopify/shopify-app-js/issues"
+    "url": "https://github.com/yanuaraditia/shopify-app-tanstack/issues"
   },
-  "homepage": "https://github.com/Shopify/shopify-app-js/tree/main/packages/apps/shopify-app-react-router",
-  "author": "Shopify Inc.",
+  "homepage": "https://github.com/yanuaraditia/shopify-app-tanstack",
+  "author": "Community Maintainers",
   "license": "MIT",
   "main": "./dist/cjs/server/index.js",
   "module": "./dist/esm/server/index.mjs",

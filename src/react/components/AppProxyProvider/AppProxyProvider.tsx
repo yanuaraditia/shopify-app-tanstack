@@ -43,7 +43,7 @@ export const AppProxyProviderContext =
  * ```ts
  * // /app/routes/**\/*.ts
  * import {authenticate} from '~/shopify.server';
- * import {AppProxyProvider} from '@shopify/shopify-app-react-router/react';
+ * import {AppProxyProvider} from '@yanuaraditia/shopify-app-tanstack/react';
  *
  * export async function loader({ request }) {
  *   await authenticate.public.appProxy(request);

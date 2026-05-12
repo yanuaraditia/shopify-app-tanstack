@@ -62,7 +62,7 @@ export interface UnauthenticatedAdminContext {
    *
    * ```ts
    * // /app/shopify.server.ts
-   * import { shopifyApp } from "@shopify/shopify-app-react-router/server";
+   * import { shopifyApp } from "@yanuaraditia/shopify-app-tanstack/server";
    *
    * const shopify = shopifyApp({
    *  // ...etc

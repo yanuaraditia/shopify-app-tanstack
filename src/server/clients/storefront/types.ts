@@ -10,7 +10,7 @@ export interface StorefrontContext {
   /**
    * Method for interacting with the Shopify Storefront GraphQL API
    *
-   * If you're getting incorrect type hints in the Shopify template, follow [these instructions](https://github.com/Shopify/shopify-app-template-react-router/tree/main#incorrect-graphql-hints).
+   * If you're getting incorrect type hints in the Shopify template, follow [these instructions](https://github.com/yanuaraditia/shopify-app-tanstack/tree/main#incorrect-graphql-hints).
    *
    * {@link https://shopify.dev/docs/api/storefront}
    *
@@ -69,7 +69,7 @@ export interface StorefrontContext {
    *
    * ```ts
    * // /app/shopify.server.ts
-   * import { shopifyApp } from "@shopify/shopify-app-react-router/server";
+   * import { shopifyApp } from "@yanuaraditia/shopify-app-tanstack/server";
    *
    * const shopify = shopifyApp({
    *   // ...

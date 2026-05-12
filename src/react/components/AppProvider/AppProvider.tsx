@@ -62,7 +62,7 @@ export type AppProviderProps = NonEmbeddedProps | EmbeddedProps;
  * // /app/routes/**\/*.ts
  * import {useLoaderData} from '@tanstack/react-router';
  * import {authenticate} from '~/shopify.server';
- * import {AppProvider} from '@shopify/shopify-app-react-router/react';
+ * import {AppProvider} from '@yanuaraditia/shopify-app-tanstack/react';
  *
  * export async function loader({ request }) {
  *   await authenticate.admin(request);
@@ -86,7 +86,7 @@ export type AppProviderProps = NonEmbeddedProps | EmbeddedProps;
  * <description>Add Polaris web components to the route, without adding the App Bridge script.</description>
  * ```ts
  * // /app/routes/**\/*.ts
- * import {AppProvider} from '@shopify/shopify-app-react-router/react';
+ * import {AppProvider} from '@yanuaraditia/shopify-app-tanstack/react';
  *
  * export default function App() {
  *   return (

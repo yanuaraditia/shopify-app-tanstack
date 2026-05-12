@@ -45,7 +45,7 @@ import {FutureFlagOptions, logDisabledFutureFlags} from './future/flags';
  * <caption>The minimum viable configuration</caption>
  * ```ts
  * // /shopify.server.ts
- * import { shopifyApp } from "@shopify/shopify-app-react-router/server";
+ * import { shopifyApp } from "@yanuaraditia/shopify-app-tanstack/server";
  *
  * const shopify = shopifyApp({
  *   apiKey: process.env.SHOPIFY_API_KEY!,
@@ -152,7 +152,7 @@ export function deriveApi(appConfig: AppConfigArg): BasicParams['api'] {
   /* eslint-enable no-process-env */
   appConfig.appUrl = appUrl.origin;
 
-  let userAgentPrefix = `Shopify React Router Library v${SHOPIFY_REACT_ROUTER_LIBRARY_VERSION}`;
+  let userAgentPrefix = `TanStack Router Library v${SHOPIFY_REACT_ROUTER_LIBRARY_VERSION}`;
   if (appConfig.userAgentPrefix) {
     userAgentPrefix = `${appConfig.userAgentPrefix} | ${userAgentPrefix}`;
   }
@@ -181,7 +181,7 @@ function deriveConfig<Storage extends SessionStorage>(
     appConfig.distribution !== AppDistribution.ShopifyAdmin
   ) {
     throw new ShopifyError(
-      'Please provide a valid session storage. Refer to https://github.com/Shopify/shopify-app-js/blob/main/README.md#session-storage-options for options.',
+      'Please provide a valid session storage. Refer to https://github.com/yanuaraditia/shopify-app-tanstack/blob/main/README.md#session-storage-options for options.',
     );
   }
 
