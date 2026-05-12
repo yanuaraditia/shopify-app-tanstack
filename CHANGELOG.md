@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 This changelog is managed with changelogen and is updated by running the changelog workflow.
 
+## v1.4.3
+
+[compare changes](https://github.com/yanuaraditia/shopify-app-tanstack/compare/v1.4.1...v1.4.3)
+
+### 🏡 Chore
+
+- Update version to 1.4.2 and modify changelog; add provenance flag to npm publish command; fix jest compatibility in tests ([ca000a2](https://github.com/yanuaraditia/shopify-app-tanstack/commit/ca000a2))
+
+### 🤖 CI
+
+- **release:** Still failed on publish so make it as release creator ([f3bcd42](https://github.com/yanuaraditia/shopify-app-tanstack/commit/f3bcd42))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v1.4.2
 
 [compare changes](https://github.com/yanuaraditia/shopify-app-tanstack/compare/v1.4.1...v1.4.2)
