@@ -1,0 +1,433 @@
+import {shopifyApp} from '../../../..';
+import {
+  API_KEY,
+  APP_URL,
+  BASE64_HOST,
+  TEST_SHOP,
+  TEST_SHOP_NAME,
+  getJwt,
+  getThrownResponse,
+  setUpValidSession,
+  testConfig,
+} from '../../../../__test-helpers';
+import {APP_BRIDGE_URL, REAUTH_URL_HEADER} from '../../../const';
+
+describe('Redirect helper', () => {
+  describe("passes request search params to redirect, but doesn't override them", () => {
+    it('when URL is a relative path', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = redirect('/?shop=override');
+
+      // THEN
+      searchParams.set('shop', 'override');
+      expect(response.status).toBe(302);
+      expect(response.headers.get('location')).toBe(
+        `${APP_URL}/?${searchParams}`,
+      );
+    });
+
+    it('when URL is absolute', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = redirect(`${APP_URL}/test?shop=override`, {
+        status: 304,
+      });
+
+      // THEN
+      searchParams.set('shop', 'override');
+      expect(response.status).toBe(304);
+      expect(response.headers.get('location')).toBe(
+        `${APP_URL}/test?${searchParams}`,
+      );
+    });
+  });
+
+  it('does not alter external URLs', async () => {
+    // GIVEN
+    const shopify = shopifyApp(testConfig());
+    await setUpValidSession(shopify.sessionStorage);
+
+    const {request} = await documentLoadRequest(true);
+    const {redirect} = await shopify.authenticate.admin(request);
+
+    // WHEN
+    const response = redirect('https://www.example.local?test');
+
+    // THEN
+    expect(response.status).toBe(302);
+    expect(response.headers.get('location')).toBe(
+      'https://www.example.local/?test',
+    );
+  });
+
+  it('does not propagate request params to protocol-relative URLs', async () => {
+    // GIVEN
+    const shopify = shopifyApp(testConfig());
+    await setUpValidSession(shopify.sessionStorage);
+
+    const {request} = await documentLoadRequest(true);
+    const {redirect} = await shopify.authenticate.admin(request);
+
+    // WHEN
+    const response = redirect('//www.example.local/collect');
+
+    // THEN
+    expect(response.status).toBe(302);
+    expect(response.headers.get('location')).toBe(
+      'https://www.example.local/collect',
+    );
+  });
+
+  it('does not propagate request params to backslash-prefixed URLs', async () => {
+    // GIVEN
+    const shopify = shopifyApp(testConfig());
+    await setUpValidSession(shopify.sessionStorage);
+
+    const {request} = await documentLoadRequest(true);
+    const {redirect} = await shopify.authenticate.admin(request);
+
+    // WHEN
+    const response = redirect('/\\www.example.local/collect');
+
+    // THEN
+    expect(response.status).toBe(302);
+    expect(response.headers.get('location')).toBe(
+      'https://www.example.local/collect',
+    );
+  });
+
+  it('propagates request params to relative paths when appUrl has a trailing slash', async () => {
+    // GIVEN
+    const shopify = shopifyApp(testConfig({appUrl: `${APP_URL}/`}));
+    await setUpValidSession(shopify.sessionStorage);
+
+    const {request, searchParams} = await documentLoadRequest(true);
+    const {redirect} = await shopify.authenticate.admin(request);
+
+    // WHEN
+    const response = redirect('/foo');
+
+    // THEN
+    expect(response.status).toBe(302);
+    expect(response.headers.get('location')).toBe(
+      `${APP_URL}/foo?${searchParams}`,
+    );
+  });
+
+  it('parses shopify admin routes and defaults to _parent for embedded apps', async () => {
+    // GIVEN
+    const shopify = shopifyApp(testConfig());
+    await setUpValidSession(shopify.sessionStorage);
+
+    const {request} = await documentLoadRequest(true);
+    const {redirect} = await shopify.authenticate.admin(request);
+
+    // WHEN
+    const response = await getThrownResponse(
+      async () => redirect('shopify://admin/products'),
+      request,
+    );
+
+    // THEN
+    await assertAppBridgeScript(
+      response,
+      `https://admin.shopify.com/store/${TEST_SHOP_NAME}/products`,
+      '_parent',
+    );
+  });
+
+  describe('and the target is _self', () => {
+    it('returns a 302 on embedded document loads', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = redirect('/');
+
+      // THEN
+      expect(response.status).toBe(302);
+      expect(response.headers.get('location')).toBe(
+        `${APP_URL}/?${searchParams}`,
+      );
+    });
+
+    it('returns an app bridge script on bounce requests', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await bounceRequest();
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () => redirect('/'),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeScript(
+        response,
+        `${APP_URL}/?${searchParams}`,
+        '_self',
+      );
+    });
+
+    it("uses React Router's default behaviour for GET data requests", async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request} = await reactRouterDataLoadRequest('GET');
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = redirect('/');
+
+      // THEN
+      expect(response.status).toBe(302);
+      expect(response.headers.get('location')).toBe(`${APP_URL}/`);
+    });
+
+    it("uses React Router's default behaviour for POST data requests", async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request} = await reactRouterDataLoadRequest('POST');
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = redirect('/');
+
+      // THEN
+      expect(response.status).toBe(302);
+      expect(response.headers.get('location')).toBe(`${APP_URL}/`);
+    });
+
+    it('parses shopify admin routes and respects target init', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = redirect('shopify://admin/products', {target: '_self'});
+
+      // THEN
+      expect(response.status).toBe(302);
+      expect(response.headers.get('location')).toBe(
+        `https://admin.shopify.com/store/${TEST_SHOP_NAME}/products`,
+      );
+    });
+  });
+
+  describe('and the target is _parent', () => {
+    it('returns an app bridge redirect on embedded document loads', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () => redirect('/', {target: '_parent'}),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeScript(
+        response,
+        `${APP_URL}/?${searchParams}`,
+        '_parent',
+      );
+    });
+
+    it('returns an app bridge script on bounce requests', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await bounceRequest();
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () => redirect('/', {target: '_parent'}),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeScript(
+        response,
+        `${APP_URL}/?${searchParams}`,
+        '_parent',
+      );
+    });
+
+    it('returns AB redirection headers for GET data requests', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request} = await reactRouterDataLoadRequest('GET');
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () => redirect('/', {target: '_parent'}),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeHeaders(response, `${APP_URL}/`);
+    });
+
+    it('returns AB redirection headers for POST data requests', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request} = await reactRouterDataLoadRequest('POST');
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () => redirect('/', {target: '_parent'}),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeHeaders(response, `${APP_URL}/`);
+    });
+  });
+
+  describe('and the target is _top', () => {
+    it('parses shopify admin routes', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () => redirect('shopify://admin/products/', {target: '_top'}),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeScript(
+        response,
+        `https://admin.shopify.com/store/${TEST_SHOP_NAME}/products/`,
+        '_top',
+      );
+    });
+
+    it('parses shopify admin routes and removes embedded params, and leaves other params', async () => {
+      // GIVEN
+      const shopify = shopifyApp(testConfig());
+      await setUpValidSession(shopify.sessionStorage);
+
+      const {request, searchParams} = await documentLoadRequest(true);
+      const {redirect} = await shopify.authenticate.admin(request);
+
+      // WHEN
+      const response = await getThrownResponse(
+        async () =>
+          redirect(`shopify://admin/products?${searchParams}&extra=param`, {
+            target: '_top',
+          }),
+        request,
+      );
+
+      // THEN
+      await assertAppBridgeScript(
+        response,
+        `https://admin.shopify.com/store/${TEST_SHOP_NAME}/products?extra=param`,
+        '_top',
+      );
+    });
+  });
+
+  async function documentLoadRequest(embedded: boolean) {
+    const {token} = await getJwt();
+    const searchParams = new URLSearchParams({
+      shop: TEST_SHOP,
+      embedded: embedded ? '1' : '0',
+      host: BASE64_HOST,
+      id_token: token,
+    });
+
+    return {request: new Request(`${APP_URL}?${searchParams}`), searchParams};
+  }
+
+  async function bounceRequest() {
+    const {token} = await getJwt();
+    const searchParams = new URLSearchParams({
+      shop: TEST_SHOP,
+      embedded: '1',
+      host: BASE64_HOST,
+    });
+
+    return {
+      request: new Request(`${APP_URL}?${searchParams}`, {
+        headers: {Authorization: `Bearer ${token}`, 'X-Shopify-Bounce': '1'},
+      }),
+      searchParams,
+    };
+  }
+
+  async function reactRouterDataLoadRequest(method: string) {
+    const {token} = await getJwt();
+
+    return {
+      request: new Request(APP_URL, {
+        headers: {Authorization: `Bearer ${token}`},
+        method,
+      }),
+    };
+  }
+
+  async function assertAppBridgeScript(
+    response: Response,
+    url: string,
+    target: string,
+  ) {
+    const body = await response.text();
+    expect(response.status).toBe(200);
+    expect(body).toContain(
+      `<script data-api-key="${API_KEY}" src="${APP_BRIDGE_URL}"></script>`,
+    );
+    expect(body).toContain(
+      `<script>window.open("${url}", "${target}")</script>`,
+    );
+  }
+
+  async function assertAppBridgeHeaders(response: Response, url: string) {
+    expect(response.status).toBe(401);
+    expect(response.headers.get(REAUTH_URL_HEADER)).toBe(url);
+  }
+});
