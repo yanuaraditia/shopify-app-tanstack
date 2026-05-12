@@ -21,6 +21,16 @@ bun run build
 
 Then follow the API docs in this repository and adapt your app's entrypoints to TanStack Router.
 
+## Changelog and releases
+
+This repository uses changelogen to generate and maintain CHANGELOG.md from Conventional Commits.
+
+Common commands:
+
+- bun run changelog (update CHANGELOG.md from commits)
+- bun run changelog:bump (bump version and update CHANGELOG.md)
+- bun run release (build, bump, changelog, commit, and tag)
+
 ## Migrating from Remix
 
 Use the migration notes in this repository to move existing Shopify app routes/loaders/actions into TanStack Router patterns.

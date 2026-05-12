@@ -61,9 +61,9 @@
     "vite:esm": "vite build --mode esm",
     "vite:cjs": "vite build --mode cjs",
     "clean": "rimraf .vite dist",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "release": "bun run build && changeset publish"
+    "changelog": "changelogen --output CHANGELOG.md",
+    "changelog:bump": "changelogen --bump --output CHANGELOG.md",
+    "release": "bun run build && changelogen --release --output CHANGELOG.md"
   },
   "publishConfig": {
     "access": "public"
@@ -82,6 +82,7 @@
   ],
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260511.1",
+    "changelogen": "^0.6.2",
     "@shopify/eslint-plugin": "^50.0.0",
     "@shopify/generate-docs": "^1.2.0",
     "@shopify/prettier-config": "^1.1.4",
