@@ -12,39 +12,35 @@
   "homepage": "https://github.com/yanuaraditia/shopify-app-tanstack",
   "author": "Community Maintainers",
   "license": "MIT",
-  "main": "./dist/cjs/server/index.js",
+  "main": "./dist/esm/server/index.mjs",
   "module": "./dist/esm/server/index.mjs",
   "types": "./dist/ts/server/index.d.ts",
+  "type": "module",
   "exports": {
     "./adapters/*": {
       "types": "./dist/ts/server/adapters/*/index.d.ts",
-      "require": "./dist/cjs/server/adapters/*/index.js",
       "import": "./dist/esm/server/adapters/*/index.mjs",
-      "default": "./dist/cjs/server/adapters/*/index.js"
+      "default": "./dist/esm/server/adapters/*/index.mjs"
     },
     "./server/adapters/*": {
       "types": "./dist/ts/server/adapters/*/index.d.ts",
-      "require": "./dist/cjs/server/adapters/*/index.js",
       "import": "./dist/esm/server/adapters/*/index.mjs",
-      "default": "./dist/cjs/server/adapters/*/index.js"
+      "default": "./dist/esm/server/adapters/*/index.mjs"
     },
     "./server": {
       "types": "./dist/ts/server/index.d.ts",
-      "require": "./dist/cjs/server/index.js",
       "import": "./dist/esm/server/index.mjs",
-      "default": "./dist/cjs/server/index.js"
+      "default": "./dist/esm/server/index.mjs"
     },
     "./react": {
       "types": "./dist/ts/react/index.d.ts",
-      "require": "./dist/cjs/react/index.js",
       "import": "./dist/esm/react/index.mjs",
-      "default": "./dist/cjs/react/index.js"
+      "default": "./dist/esm/react/index.mjs"
     },
     "./test-helpers": {
       "types": "./dist/ts/server/test-helpers/index.d.ts",
-      "require": "./dist/cjs/server/test-helpers/index.js",
       "import": "./dist/esm/server/test-helpers/index.mjs",
-      "default": "./dist/cjs/server/test-helpers/index.js"
+      "default": "./dist/esm/server/test-helpers/index.mjs"
     }
   },
   "scripts": {
@@ -54,12 +50,11 @@
     "docs:preview": "bun run --cwd docs preview",
     "validate-docs": "sh ./docs/build-docs.sh isTest && bun run compare-docs",
     "lint": "oxlint",
-    "build": "bun run vite:esm && bun run vite:cjs && bun run tsc -p ./tsconfig.build.json",
+    "build": "bun run vite:esm && bun run tsc -p ./tsconfig.build.json",
     "tsc": "tsc",
     "test": "vitest run",
     "test:ci": "bun run test",
     "vite:esm": "vite build --mode esm",
-    "vite:cjs": "vite build --mode cjs",
     "clean": "rimraf .vite dist",
     "changelog": "changelogen --output CHANGELOG.md",
     "changelog:bump": "changelogen --bump --output CHANGELOG.md",

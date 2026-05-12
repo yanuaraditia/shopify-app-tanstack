@@ -1,10 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {builtinModules} from 'node:module';
 
 import {defineConfig} from 'vite';
 
 import pkg from './package.json';
+
+type PackageJsonDeps = {
+  dependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
+  optionalDependencies?: Record<string, string>;
+};
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const adapterBasePath = path.resolve(__dirname, 'src/server/adapters');
 
@@ -32,35 +41,29 @@ const input = {
 };
 
 const externalDeps = [
-  ...Object.keys(pkg.dependencies ?? {}),
-  ...Object.keys(pkg.peerDependencies ?? {}),
-  ...Object.keys(pkg.optionalDependencies ?? {}),
+  ...Object.keys((pkg as PackageJsonDeps).dependencies ?? {}),
+  ...Object.keys((pkg as PackageJsonDeps).peerDependencies ?? {}),
+  ...Object.keys((pkg as PackageJsonDeps).optionalDependencies ?? {}),
   ...builtinModules,
   ...builtinModules.map((moduleName) => `node:${moduleName}`),
 ];
 
-export default defineConfig(({mode}) => {
-  const isEsm = mode === 'esm';
-
-  return {
-    build: {
-      target: 'es2022',
-      sourcemap: true,
-      minify: false,
-      emptyOutDir: false,
-      outDir: isEsm ? 'dist/esm' : 'dist/cjs',
-      rollupOptions: {
-        input,
-        external: externalDeps,
-        output: {
-          format: isEsm ? 'es' : 'cjs',
-          entryFileNames: isEsm ? '[name].mjs' : '[name].js',
-          chunkFileNames: isEsm
-            ? 'chunks/[name]-[hash].mjs'
-            : 'chunks/[name]-[hash].js',
-          exports: 'auto',
-        },
+export default defineConfig({
+  build: {
+    target: 'es2022',
+    sourcemap: true,
+    minify: 'oxc',
+    emptyOutDir: false,
+    outDir: 'dist/esm',
+    rolldownOptions: {
+      input,
+      external: externalDeps,
+      output: {
+        format: 'es' as const,
+        entryFileNames: '[name].mjs',
+        chunkFileNames: 'chunks/[name]-[hash].mjs',
+        exports: 'auto' as const,
       },
     },
-  };
+  },
 });

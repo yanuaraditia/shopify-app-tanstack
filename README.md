@@ -12,6 +12,13 @@ It is not an official Shopify package.
 
 This package is built for the Vite ecosystem, making it easy to build Shopify apps with TanStack Router while keeping familiar Shopify app primitives.
 
+## ESM-only package
+
+This package publishes modern ESM output only (`.mjs`) and `"type": "module"` metadata.
+
+- Use `import` syntax in Node and bundlers.
+- `require('@yanuaraditia/shopify-app-tanstack')` is not supported.
+
 ## Migration guide
 
 The full migration guide now lives in this repository Wiki: [Migration Guide](https://github.com/yanuaraditia/shopify-app-tanstack/wiki/Migration-from-shopify%E2%80%90app%E2%80%90react%E2%80%90router)
