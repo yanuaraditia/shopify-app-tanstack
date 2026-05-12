@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 
 This changelog is managed with changelogen and is updated by running the changelog workflow.
 
+## v1.2.0
+
+[compare changes](https://github.com/yanuaraditia/shopify-app-tanstack/compare/v1.1.0...v1.2.0)
+
+### 🚀 Enhancements
+
+- Missing-username ([0f24533](https://github.com/yanuaraditia/shopify-app-tanstack/commit/0f24533))
+- Add toml reader ([26fc32a](https://github.com/yanuaraditia/shopify-app-tanstack/commit/26fc32a))
+- Update migration guide on readme ([e3e0e7a](https://github.com/yanuaraditia/shopify-app-tanstack/commit/e3e0e7a))
+- Update docs title ([ad3d570](https://github.com/yanuaraditia/shopify-app-tanstack/commit/ad3d570))
+- **docs:** Update the content of docs ([4519a62](https://github.com/yanuaraditia/shopify-app-tanstack/commit/4519a62))
+- **docs:** Update index.md ([3cde982](https://github.com/yanuaraditia/shopify-app-tanstack/commit/3cde982))
+- Update tsconfig for docs ([8f700a4](https://github.com/yanuaraditia/shopify-app-tanstack/commit/8f700a4))
+
+### 🩹 Fixes
+
+- Avoid logging session token details ([d2678d8](https://github.com/yanuaraditia/shopify-app-tanstack/commit/d2678d8))
+- Dist release ([b6b897d](https://github.com/yanuaraditia/shopify-app-tanstack/commit/b6b897d))
+- **docs:** Deployment failed ([bee444a](https://github.com/yanuaraditia/shopify-app-tanstack/commit/bee444a))
+- **node:** Disable node version ([8a32cb1](https://github.com/yanuaraditia/shopify-app-tanstack/commit/8a32cb1))
+
+### 📖 Documentation
+
+- **readme:** Update guidelines ([be0d54d](https://github.com/yanuaraditia/shopify-app-tanstack/commit/be0d54d))
+- **readme:** Update the main docs ([e41ffd9](https://github.com/yanuaraditia/shopify-app-tanstack/commit/e41ffd9))
+- **migration:** Beautify the ui ([f769048](https://github.com/yanuaraditia/shopify-app-tanstack/commit/f769048))
+- **docs:** Add docs page for better search index ([3d188c2](https://github.com/yanuaraditia/shopify-app-tanstack/commit/3d188c2))
+
+### 🤖 CI
+
+- **docs:** Fix vercel command ([d942e4e](https://github.com/yanuaraditia/shopify-app-tanstack/commit/d942e4e))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+- Yanuaraditia ([@ngalor](https://github.com/ngalor))
+
 ## v1.1.0
 
 ### 🚀 Enhancements
