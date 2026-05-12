@@ -12,11 +12,9 @@ It is not an official Shopify package.
 
 This package is built for the Vite ecosystem, making it easy to build Shopify apps with TanStack Router while keeping familiar Shopify app primitives.
 
-## Migration guide: `@shopify/shopify-app-react-router` -> `@yanuaraditia/shopify-app-tanstack`
+## Migration guide
 
-The full migration guide now lives in this repository Wiki:
-
-- https://github.com/yanuaraditia/shopify-app-tanstack/wiki/Migration-from-shopify%E2%80%90app%E2%80%90react%E2%80%90router
+The full migration guide now lives in this repository Wiki: [Migration Guide](https://github.com/yanuaraditia/shopify-app-tanstack/wiki/Migration-from-shopify%E2%80%90app%E2%80%90react%E2%80%90router)
 
 > [!WARNING]
 > If your current project started from a **Remix template** (for example `shopify-app-template-remix`), read this official guide first:
