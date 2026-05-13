@@ -27,6 +27,10 @@ export default defineConfig({
           {text: 'Overview', link: '/guide/overview'},
           {text: 'Project Structure', link: '/guide/project-structure'},
           {text: 'Server API', link: '/guide/server-api'},
+          {
+            text: 'Nitro / TanStack Start SSR',
+            link: '/guide/nitro-tanstack-start-ssr',
+          },
           {text: 'React API', link: '/guide/react-api'},
           {text: 'Authentication Flows', link: '/guide/authentication-flows'},
           {text: 'Testing', link: '/guide/testing'},

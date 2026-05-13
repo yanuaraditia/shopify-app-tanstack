@@ -60,6 +60,7 @@ export const shopify = shopifyApp({
 - [Overview](/guide/overview)
 - [Project Structure](/guide/project-structure)
 - [Server API](/guide/server-api)
+- [Nitro / TanStack Start SSR](/guide/nitro-tanstack-start-ssr)
 - [React API](/guide/react-api)
 - [Authentication Flows](/guide/authentication-flows)
 - [Testing](/guide/testing)
