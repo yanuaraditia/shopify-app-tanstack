@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 This changelog is managed with changelogen and is updated by running the changelog workflow.
 
+## v1.5.0
+
+[compare changes](https://github.com/yanuaraditia/shopify-app-tanstack/compare/v1.4.3...v1.5.0)
+
+### 🚀 Enhancements
+
+- Add Nitro adapter for TanStack Start SSR ([c0ed1b1](https://github.com/yanuaraditia/shopify-app-tanstack/commit/c0ed1b1))
+
+### 🏡 Chore
+
+- **release:** Bump version to 1.4.3 and update changelog ([453afe9](https://github.com/yanuaraditia/shopify-app-tanstack/commit/453afe9))
+
+### ❤️ Contributors
+
+- Yanuaraditia ([@ngalor](https://github.com/ngalor))
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v1.4.3
 
 [compare changes](https://github.com/yanuaraditia/shopify-app-tanstack/compare/v1.4.1...v1.4.3)
